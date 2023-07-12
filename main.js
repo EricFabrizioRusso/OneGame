@@ -9,6 +9,12 @@ let canvas= d.getElementById("canvas"),
  dy = -2;
 
 
+let x2 = canvas.width / (Math.floor(Math.random() * Math.random()) + 3),
+y2 =canvas.height - 40,
+dx2= 2,
+dy2 = -2;
+
+
 
 
 let paddleHeight= 12,
@@ -92,13 +98,14 @@ const drawBall=()=>{
 
     context.beginPath();
     context.arc(x, y, ballRadius, 0, Math.PI * 2);
-    context.fillStyle= '#454DD9';
+    context.fillStyle= '#222';
     context.fill();
     context.closePath();
 
 
 
 }
+
 
 
 function drawBricks(){
@@ -158,6 +165,8 @@ const hitDetection=()=>{
             let b= bricks[c][r];
             //console.log(b.status)
             if(b.status === 1){
+
+
                 if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight){
                     dy= -dy;
                     b.status = 0;   
@@ -165,7 +174,50 @@ const hitDetection=()=>{
                     
                     //Check Win
 
-                    if(score === 5){
+                    if(score === 1){
+
+                        dx= 4;
+                        dy= -4;
+                        
+                        
+
+                    }
+
+                    if(score === rowCount * columCount){
+                        alert('You Win');
+                        d.location.reload();
+                    }
+
+
+                }
+
+                
+            }
+
+        }
+
+    }
+
+
+}
+
+const hitDetection2=()=>{
+    for(let c= 0; c < columCount; c++){
+        for(let r= 0; r < rowCount; r++){
+           
+            let b= bricks[c][r];
+            //console.log(b.status)
+            if(b.status === 1){
+
+
+                if (x2 > b.x2 && x2 < b.x2 + brickWidth && y2 > b.y2 && y2 < b.y2 + brickHeight){
+                    dy2= -dy2
+                    b.status = 0;   
+                    score ++;
+                    
+                    //Check Win
+
+                    if(score === 1){
 
                         dx= 4;
                         dy= -4;
@@ -204,6 +256,7 @@ const init=()=>{
     drawPaddle();
     hitDetection();
 
+
     //Detect right and left wall
     if(x + dx > canvas.width - ballRadius ||  x + dx < ballRadius){
 
@@ -241,11 +294,13 @@ const init=()=>{
         dy = -dy;
     
     }
+   
     
     //Move Ball
     
     x += dx;
     y += dy;
+
 
  
 }
